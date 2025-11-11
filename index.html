@@ -286,7 +286,7 @@
 
       mainMessageEl.textContent = config.main_message || defaultConfig.main_message;
       birthdayNameEl.textContent = config.birthday_name || defaultConfig.birthday_name;
-      backMessageEl.textContent = config.back_message || defaultConfig.back_message;
+      backMessageEl.innerHTML = config.back_message || defaultConfig.back_message;
 
       container.style.background = config.background_color || defaultConfig.background_color;
       cardFaces.forEach(face => {

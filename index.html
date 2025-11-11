@@ -35,6 +35,44 @@
       perspective: 1500px;
     }
 
+    .hearts-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0;
+      animation: floatHeart 8s ease-in-out infinite;
+      color: #ff6b9d;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(100%) scale(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      50% {
+        opacity: 0.4;
+      }
+      90% {
+        opacity: 0.2;
+      }
+      100% {
+        transform: translateY(-100%) scale(1.2) rotate(15deg);
+        opacity: 0;
+      }
+    }
+
     .card-container {
       position: relative;
       width: 500px;
@@ -165,6 +203,7 @@
  </head>
  <body>
   <div class="container">
+   <div class="hearts-container" id="heartsContainer"></div>
    <div class="card-container" id="cardContainer">
     <div class="card-face card-front">
      <h1 class="main-title" id="mainMessage">Joyeux Anniversaire</h1>
@@ -184,8 +223,7 @@
     const defaultConfig = {
       birthday_name: "Laoura",
       main_message: "Joyeux Anniversaire",
-      back_message: "Joyeux anniversaire, un an plus proche de la retraite mais t'inquiète ça se voit pas pour le moment.<br><br>Félicitations pour ton appartement et pour LVMH.<br><br>En espérant que t'auras ton cadeau dans un avenir proche pas comme Diana (t'inquiète pas je sais déjà ce que c'est j'attends juste qu'il revienne en stock).<br><br>Bref félicitations, prochaine étape monter une startup et avec un peu de chance quitter ton vieux gars.<br><br>PS: La vie est assez dure comme ça pour avoir à le supporter."
-
+      back_message: "Joyeux anniversaire, un an plus proche de la retraite mais t'inquiète ça se voit pas pour le moment.\n\nFélicitations pour ton appartement et pour LVMH.\n\nEn espérant que t'auras ton cadeau dans un avenir proche pas comme Diana (t'inquiète pas je sais déjà ce que c'est j'attends juste qu'il revienne en stock).\n\nBref félicitations, prochaine étape monter une startup et avec un peu de chance quitter ton vieux gars.\n\nPS: La vie est assez dure comme ça pour avoir à le supporter",
       background_color: "#fafafa",
       card_color: "#ffffff",
       text_color: "#1a1a1a",
@@ -199,6 +237,37 @@
     cardContainer.addEventListener('click', () => {
       cardContainer.classList.toggle('flipped');
     });
+
+    // Hearts animation
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.textContent = '♥';
+      
+      // Only from left or right side
+      const fromLeft = Math.random() > 0.5;
+      heart.style.left = fromLeft ? '-5%' : '105%';
+      heart.style.top = Math.random() * 100 + '%';
+      
+      // Animate horizontally across screen
+      const targetX = fromLeft ? '105%' : '-5%';
+      heart.style.animation = 'none';
+      heart.style.opacity = '0.5';
+      
+      setTimeout(() => {
+        heart.style.transition = 'all 8s ease-in-out';
+        heart.style.left = targetX;
+        heart.style.opacity = '0';
+        heart.style.transform = `translateY(${(Math.random() - 0.5) * 200}px) scale(1.2) rotate(${Math.random() * 30 - 15}deg)`;
+      }, 50);
+      
+      heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+      document.getElementById('heartsContainer').appendChild(heart);
+      
+      setTimeout(() => heart.remove(), 10000);
+    }
+
+    setInterval(createHeart, 200);
 
     // Element SDK implementation
     async function onConfigChange(config) {
@@ -315,5 +384,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99ce0bb7b6bbc395',t:'MTc2Mjg2Njc5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99ce1cbbc042d3d0',t:'MTc2Mjg2NzQ5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
